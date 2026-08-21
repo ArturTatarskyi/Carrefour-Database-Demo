@@ -6,6 +6,9 @@ public class Menu {
 
     private List<Pracownik> pracownicy = new ArrayList<>();
     private List<Towar> towary = new ArrayList<>();
+    public List<Towar> getTowary() {
+    return towary;
+    }
     private List<Dostawca> dostawcy = new ArrayList<>();
     private List<Wynagrodzenie> wynagrodzenia = new ArrayList<>();
 

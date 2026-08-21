@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 
 public class MainWindow extends Application {
 
+    private Menu menu = new Menu();
+
     @Override
     public void start(Stage stage) {
 
@@ -18,6 +20,8 @@ public class MainWindow extends Application {
         Button suppliersButton = new Button("Dostawcy");
         Button salariesButton = new Button("Wynagrodzenia");
         Button exitButton = new Button("Wyjście");
+
+        productsButton.setOnAction(event -> TowaryWindow.show(menu));
 
         VBox menu = new VBox(15);
         menu.setAlignment(Pos.CENTER);
