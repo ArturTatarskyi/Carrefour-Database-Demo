@@ -55,7 +55,9 @@ public class TowaryWindow {
 
             menu.getTowary().remove(selectedIndex);
 
-            updateProductsList(productsList, menu);
+TowarStorage.save(menu.getTowary());
+
+updateProductsList(productsList, menu);
         }
     });
 });
@@ -182,9 +184,11 @@ public class TowaryWindow {
 
                 menu.getTowary().add(newTowar);
 
-                updateProductsList(productsList, menu);
+TowarStorage.save(menu.getTowary());
 
-                stage.close();
+updateProductsList(productsList, menu);
+
+stage.close();
 
             } catch (NumberFormatException e) {
                 showError("Cena musi byc liczba, a ilosc liczba calkowita.");

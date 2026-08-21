@@ -29,13 +29,18 @@ public class Menu {
         wynagrodzenia.add(new Wynagrodzenie(p4, 30, "01.2024"));
         wynagrodzenia.add(new Wynagrodzenie(p5, 45, "01.2024"));
 
-        // ===== TOWARY (5) =====
-        towary.add(new Towar("Chleb", TypTowaru.JEDZENIE, 4.5, 100));
-        towary.add(new Towar("Koszulka", TypTowaru.ODZIEZ, 49.9, 50));
-        towary.add(new Towar("Sofa", TypTowaru.MEBLE, 1999, 2));
-        towary.add(new Towar("Laptop", TypTowaru.ELEKTRONIKA, 3500, 5));
-        towary.add(new Towar("Jablka", TypTowaru.JEDZENIE, 3.99, 200));
+        // ===== TOWARY =====
+towary = TowarStorage.load();
 
+if (towary.isEmpty()) {
+    towary.add(new Towar("Chleb", TypTowaru.JEDZENIE, 4.5, 100));
+    towary.add(new Towar("Koszulka", TypTowaru.ODZIEZ, 49.9, 50));
+    towary.add(new Towar("Sofa", TypTowaru.MEBLE, 1999, 2));
+    towary.add(new Towar("Laptop", TypTowaru.ELEKTRONIKA, 3500, 5));
+    towary.add(new Towar("Jablka", TypTowaru.JEDZENIE, 3.99, 200));
+
+    TowarStorage.save(towary);
+}
         // ===== DOSTAWCY (5) =====
         dostawcy.add(new Dostawca("FoodPol", TypTowaru.JEDZENIE, "01.01.2019"));
         dostawcy.add(new Dostawca("TextilMax", TypTowaru.ODZIEZ, "05.05.2018"));
