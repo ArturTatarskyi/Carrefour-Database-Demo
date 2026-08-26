@@ -12,16 +12,18 @@ public class MainWindow extends Application {
 
     @Override
     public void start(Stage stage) {
+        Menu storeMenu = new Menu();
 
         Label title = new Label("CARREFOUR");
 
         Button productsButton = new Button("Towary");
         Button employeesButton = new Button("Pracownicy");
         Button suppliersButton = new Button("Dostawcy");
+        suppliersButton.setOnAction(event -> DostawcyWindow.show(storeMenu));
         Button salariesButton = new Button("Wynagrodzenia");
         Button exitButton = new Button("Wyjście");
 
-        productsButton.setOnAction(event -> TowaryWindow.show(menu));
+        productsButton.setOnAction(event -> TowaryWindow.show(storeMenu));
 
         VBox menu = new VBox(15);
         menu.setAlignment(Pos.CENTER);

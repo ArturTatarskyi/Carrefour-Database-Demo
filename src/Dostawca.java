@@ -16,6 +16,18 @@ public class Dostawca implements Comparable<Dostawca> {
         return id;
     }
 
+    public String getNazwa() {
+    return nazwa;
+}
+
+public TypTowaru getTypTowaru() {
+    return typTowaru;
+}
+
+public String getDataUmowy() {
+    return dataUmowy;
+}
+
     @Override
     public int compareTo(Dostawca o) {
         return this.nazwa.compareTo(o.nazwa);
