@@ -6,6 +6,10 @@ public class Menu {
 
     private List<Pracownik> pracownicy = new ArrayList<>();
 
+    public List<Pracownik> getPracownicy() {
+    return pracownicy;
+    }
+
     private List<Towar> towary = new ArrayList<>();
 
     public List<Towar> getTowary() {

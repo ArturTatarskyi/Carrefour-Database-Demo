@@ -25,6 +25,8 @@ public class MainWindow extends Application {
 
         productsButton.setOnAction(event -> TowaryWindow.show(storeMenu));
 
+        employeesButton.setOnAction(event -> PracownicyWindow.show(menu));
+
         VBox menu = new VBox(15);
         menu.setAlignment(Pos.CENTER);
 
