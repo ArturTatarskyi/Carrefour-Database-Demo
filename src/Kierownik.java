@@ -6,6 +6,10 @@ public class Kierownik extends Pracownik {
         super(imie, nazwisko, wiek, Stanowisko.KIEROWNIK, data);
     }
 
+    public Kierownik(int id, String imie, String nazwisko, int wiek, String data) {
+    super(id, imie, nazwisko, wiek, Stanowisko.KIEROWNIK, data);
+}
+
     @Override
     public String toString() {
         return "KIEROWNIK | " + super.toString();

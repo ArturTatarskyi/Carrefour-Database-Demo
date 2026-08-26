@@ -7,7 +7,7 @@ public class Menu {
     private List<Pracownik> pracownicy = new ArrayList<>();
 
     public List<Pracownik> getPracownicy() {
-    return pracownicy;
+        return pracownicy;
     }
 
     private List<Towar> towary = new ArrayList<>();
@@ -24,69 +24,96 @@ public class Menu {
 
     private List<Wynagrodzenie> wynagrodzenia = new ArrayList<>();
 
+    public List<Wynagrodzenie> getWynagrodzenia() {
+    return wynagrodzenia;
+    }
+
     public Menu() {
 
-        // ===== PRACOWNICY (5) =====
-        Pracownik p1 = new Pracownik(
-                "Jan",
-                "Kowalski",
-                30,
-                Stanowisko.PRACOWNIK,
-                "01.01.2020"
-        );
+        // ===== PRACOWNICY =====
 
-        Pracownik p2 = new Pracownik(
-                "Adam",
-                "Nowak",
-                25,
-                Stanowisko.KASJER,
-                "02.02.2021"
-        );
+        pracownicy.addAll(PracownikStorage.load());
 
-        Pracownik p3 = new Pracownik(
-                "Artur",
-                "Lis",
-                28,
-                Stanowisko.MAGAZYNIER,
-                "10.03.2022"
-        );
+        if (pracownicy.isEmpty()) {
 
-        Pracownik p4 = new Kierownik(
-                "Anna",
-                "Mazur",
-                40,
-                "01.05.2018"
-        );
+            Pracownik p1 = new Pracownik(
+                    "Jan",
+                    "Kowalski",
+                    30,
+                    Stanowisko.PRACOWNIK,
+                    "01.01.2020"
+            );
 
-        Pracownik p5 = new Kierownik(
-                "Piotr",
-                "Zielinski",
-                45,
-                "01.03.2016"
-        );
+            Pracownik p2 = new Pracownik(
+                    "Adam",
+                    "Nowak",
+                    25,
+                    Stanowisko.KASJER,
+                    "02.02.2021"
+            );
 
-        pracownicy.addAll(
-                List.of(p1, p2, p3, p4, p5)
-        );
+            Pracownik p3 = new Pracownik(
+                    "Artur",
+                    "Lis",
+                    28,
+                    Stanowisko.MAGAZYNIER,
+                    "10.03.2022"
+            );
 
-        // ===== WYNAGRODZENIA (4) =====
-        wynagrodzenia.add(
-                new Wynagrodzenie(p1, 40, "01.2024")
-        );
+            Pracownik p4 = new Kierownik(
+                    "Anna",
+                    "Mazur",
+                    40,
+                    "01.05.2018"
+            );
 
-        wynagrodzenia.add(
-                new Wynagrodzenie(p2, 50, "01.2024")
-        );
+            Pracownik p5 = new Kierownik(
+                    "Piotr",
+                    "Zielinski",
+                    45,
+                    "01.03.2016"
+            );
 
-        wynagrodzenia.add(
-                new Wynagrodzenie(p4, 30, "01.2024")
-        );
+            pracownicy.addAll(
+                    List.of(p1, p2, p3, p4, p5)
+            );
 
-        wynagrodzenia.add(
-                new Wynagrodzenie(p5, 45, "01.2024")
-        );
+            PracownikStorage.save(pracownicy);
+        }
+
+        // ===== WYNAGRODZENIA =====
+wynagrodzenia.addAll(
+        WynagrodzenieStorage.load(pracownicy)
+);
+
+if (wynagrodzenia.isEmpty()) {
+
+    Pracownik p1 = pracownicy.get(0);
+    Pracownik p2 = pracownicy.get(1);
+    Pracownik p4 = pracownicy.get(3);
+    Pracownik p5 = pracownicy.get(4);
+
+    wynagrodzenia.add(
+            new Wynagrodzenie(p1, 40, "01.2024")
+    );
+
+    wynagrodzenia.add(
+            new Wynagrodzenie(p2, 50, "01.2024")
+    );
+
+    wynagrodzenia.add(
+            new Wynagrodzenie(p4, 30, "01.2024")
+    );
+
+    wynagrodzenia.add(
+            new Wynagrodzenie(p5, 45, "01.2024")
+    );
+
+    WynagrodzenieStorage.save(wynagrodzenia);
+}
 
         // ===== TOWARY =====
+
         towary = TowarStorage.load();
 
         if (towary.isEmpty()) {
@@ -140,6 +167,7 @@ public class Menu {
         }
 
         // ===== DOSTAWCY =====
+
         dostawcy.addAll(
                 DostawcaStorage.load()
         );
@@ -190,6 +218,26 @@ public class Menu {
         }
     }
 
+    // ===== POMOCNICZA METODA =====
+
+    private Pracownik findEmployee(
+            String imie,
+            String nazwisko) {
+
+        for (Pracownik pracownik : pracownicy) {
+
+            if (pracownik.getImie().equals(imie)
+                    && pracownik.getNazwisko().equals(nazwisko)) {
+
+                return pracownik;
+            }
+        }
+
+        return null;
+    }
+
+    // ===== MENU GLOWNE =====
+
     public void start() {
 
         while (true) {
@@ -229,6 +277,7 @@ public class Menu {
         sc.nextLine();
 
         if (w == 1) {
+
             Printer.drukuj(pracownicy);
         }
 
@@ -275,11 +324,15 @@ public class Menu {
                             );
 
             pracownicy.add(p);
+
+            PracownikStorage.save(pracownicy);
         }
 
         if (w == 3) {
 
-            System.out.println("Wpisz ID pracownika:");
+            System.out.println(
+                    "Wpisz ID pracownika:"
+            );
 
             int id = sc.nextInt();
 
@@ -293,6 +346,8 @@ public class Menu {
                 wynagrodzenia.removeIf(
                         wyn -> wyn.getPracownikId() == id
                 );
+
+                PracownikStorage.save(pracownicy);
 
                 System.out.println(
                         "Pracownik usuniety"
@@ -326,6 +381,7 @@ public class Menu {
         sc.nextLine();
 
         if (w == 1) {
+
             Printer.drukuj(towary);
         }
 
@@ -360,6 +416,8 @@ public class Menu {
             towary.add(
                     new Towar(n, t, c, i)
             );
+
+            TowarStorage.save(towary);
         }
 
         if (w == 3) {
@@ -376,6 +434,8 @@ public class Menu {
                     );
 
             if (usunieto) {
+
+                TowarStorage.save(towary);
 
                 System.out.println(
                         "Towar usuniety"
@@ -436,10 +496,10 @@ public class Menu {
             String d = sc.nextLine();
 
             dostawcy.add(
-        new Dostawca(n, t, d)
-);
+                    new Dostawca(n, t, d)
+            );
 
-DostawcaStorage.save(dostawcy);
+            DostawcaStorage.save(dostawcy);
         }
 
         if (w == 3) {
@@ -457,13 +517,13 @@ DostawcaStorage.save(dostawcy);
 
             if (usunieto) {
 
-    DostawcaStorage.save(dostawcy);
+                DostawcaStorage.save(dostawcy);
 
-    System.out.println(
-            "Dostawca usuniety"
-    );
+                System.out.println(
+                        "Dostawca usuniety"
+                );
 
-} else {
+            } else {
 
                 System.out.println(
                         "Danego dostawcy nie istnieje"

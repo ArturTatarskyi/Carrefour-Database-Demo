@@ -8,29 +8,44 @@ import javafx.stage.Stage;
 
 public class MainWindow extends Application {
 
-    private Menu menu = new Menu();
-
     @Override
     public void start(Stage stage) {
-        Menu storeMenu = new Menu();
+
+        Menu menu = new Menu();
 
         Label title = new Label("CARREFOUR");
 
         Button productsButton = new Button("Towary");
         Button employeesButton = new Button("Pracownicy");
         Button suppliersButton = new Button("Dostawcy");
-        suppliersButton.setOnAction(event -> DostawcyWindow.show(storeMenu));
         Button salariesButton = new Button("Wynagrodzenia");
         Button exitButton = new Button("Wyjście");
 
-        productsButton.setOnAction(event -> TowaryWindow.show(storeMenu));
+        productsButton.setOnAction(
+                event -> TowaryWindow.show(menu)
+        );
 
-        employeesButton.setOnAction(event -> PracownicyWindow.show(menu));
+        employeesButton.setOnAction(
+                event -> PracownicyWindow.show(menu)
+        );
 
-        VBox menu = new VBox(15);
-        menu.setAlignment(Pos.CENTER);
+        suppliersButton.setOnAction(
+                event -> DostawcyWindow.show(menu)
+        );
 
-        menu.getChildren().addAll(
+        salariesButton.setOnAction(
+                event -> WynagrodzeniaWindow.show(menu)
+        );
+
+        exitButton.setOnAction(
+                event -> stage.close()
+        );
+
+        VBox menuBox = new VBox(15);
+
+        menuBox.setAlignment(Pos.CENTER);
+
+        menuBox.getChildren().addAll(
                 title,
                 productsButton,
                 employeesButton,
@@ -39,9 +54,11 @@ public class MainWindow extends Application {
                 exitButton
         );
 
-        exitButton.setOnAction(event -> stage.close());
-
-        Scene scene = new Scene(menu, 500, 400);
+        Scene scene = new Scene(
+                menuBox,
+                500,
+                400
+        );
 
         stage.setTitle("Carrefour Database");
         stage.setScene(scene);

@@ -18,9 +18,38 @@ public class Pracownik extends Osoba implements Comparable<Pracownik> {
         this.dataZatrudnienia = data;
     }
 
+    public Pracownik(int id, String imie, String nazwisko, int wiek,
+                 Stanowisko stanowisko, String data) {
+    super(imie, nazwisko);
+    this.id = id;
+    this.wiek = wiek;
+    this.stanowisko = stanowisko;
+    this.dataZatrudnienia = data;
+}
+
     public int getId() {
         return id;
     }
+
+    public String getImie() {
+    return imie;
+}
+
+public String getNazwisko() {
+    return nazwisko;
+}
+
+public int getWiek() {
+    return wiek;
+}
+
+public Stanowisko getStanowisko() {
+    return stanowisko;
+}
+
+public String getDataZatrudnienia() {
+    return dataZatrudnienia;
+}
 
     @Override
     public String getRola() {

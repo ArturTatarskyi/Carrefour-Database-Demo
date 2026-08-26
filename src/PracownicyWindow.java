@@ -230,10 +230,17 @@ public class PracownicyWindow {
                 );
             }
 
+            // Dodajemy pracownika do listy
             menu.getPracownicy().add(
                     newEmployee
             );
 
+            // Zapisujemy liste do pliku
+            PracownikStorage.save(
+                    menu.getPracownicy()
+            );
+
+            // Odświeżamy listę w GUI
             updateEmployeesList(
                     employeesList,
                     menu
@@ -300,10 +307,31 @@ public class PracownicyWindow {
                     if (response ==
                             javafx.scene.control.ButtonType.OK) {
 
+                        // Zapamiętujemy ID pracownika
+                        int employeeId =
+                                selectedEmployee.getId();
+
+                        // Usuwamy pracownika
                         menu.getPracownicy().remove(
                                 selectedEmployee
                         );
 
+                        // Usuwamy wszystkie jego wynagrodzenia
+                        menu.getWynagrodzenia().removeIf(
+                                wyn -> wyn.getPracownikId() == employeeId
+                        );
+
+                        // Zapisujemy pracowników
+                        PracownikStorage.save(
+                                menu.getPracownicy()
+                        );
+
+                        // Zapisujemy wynagrodzenia
+                        WynagrodzenieStorage.save(
+                                menu.getWynagrodzenia()
+                        );
+
+                        // Odświeżamy listę pracowników w GUI
                         updateEmployeesList(
                                 employeesList,
                                 menu

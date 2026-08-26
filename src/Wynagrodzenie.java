@@ -21,6 +21,10 @@ public class Wynagrodzenie implements Comparable<Wynagrodzenie> {
         return pracownik.getId();
     }
 
+    public int getGodziny() {
+    return godziny;
+}
+
     public String getOkres() {
         return okres;
     }
