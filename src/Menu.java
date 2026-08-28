@@ -1,46 +1,44 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Menu {
 
-    private Scanner sc = new Scanner(System.in);
-
     private List<Pracownik> pracownicy = new ArrayList<>();
+    private List<Towar> towary = new ArrayList<>();
+    private List<Dostawca> dostawcy = new ArrayList<>();
+    private List<Wynagrodzenie> wynagrodzenia = new ArrayList<>();
 
     public List<Pracownik> getPracownicy() {
         return pracownicy;
     }
 
-    private List<Towar> towary = new ArrayList<>();
-
     public List<Towar> getTowary() {
         return towary;
     }
-
-    private List<Dostawca> dostawcy = new ArrayList<>();
 
     public List<Dostawca> getDostawcy() {
         return dostawcy;
     }
 
-    private List<Wynagrodzenie> wynagrodzenia = new ArrayList<>();
-
     public List<Wynagrodzenie> getWynagrodzenia() {
-    return wynagrodzenia;
+        return wynagrodzenia;
     }
 
     public Menu() {
 
         // ===== TYPY TOWAROW =====
 
-TypTowaruStorage.load();
+        TypTowaruStorage.load();
 
         // ===== STANOWISKA =====
 
-StanowiskoStorage.load();
+        StanowiskoStorage.load();
 
         // ===== PRACOWNICY =====
 
-        pracownicy.addAll(PracownikStorage.load());
+        pracownicy.addAll(
+                PracownikStorage.load()
+        );
 
         if (pracownicy.isEmpty()) {
 
@@ -90,35 +88,36 @@ StanowiskoStorage.load();
         }
 
         // ===== WYNAGRODZENIA =====
-wynagrodzenia.addAll(
-        WynagrodzenieStorage.load(pracownicy)
-);
 
-if (wynagrodzenia.isEmpty()) {
+        wynagrodzenia.addAll(
+                WynagrodzenieStorage.load(pracownicy)
+        );
 
-    Pracownik p1 = pracownicy.get(0);
-    Pracownik p2 = pracownicy.get(1);
-    Pracownik p4 = pracownicy.get(3);
-    Pracownik p5 = pracownicy.get(4);
+        if (wynagrodzenia.isEmpty()) {
 
-    wynagrodzenia.add(
-            new Wynagrodzenie(p1, 40, "01.2024")
-    );
+            Pracownik p1 = pracownicy.get(0);
+            Pracownik p2 = pracownicy.get(1);
+            Pracownik p4 = pracownicy.get(3);
+            Pracownik p5 = pracownicy.get(4);
 
-    wynagrodzenia.add(
-            new Wynagrodzenie(p2, 50, "01.2024")
-    );
+            wynagrodzenia.add(
+                    new Wynagrodzenie(p1, 40, "01.2024")
+            );
 
-    wynagrodzenia.add(
-            new Wynagrodzenie(p4, 30, "01.2024")
-    );
+            wynagrodzenia.add(
+                    new Wynagrodzenie(p2, 50, "01.2024")
+            );
 
-    wynagrodzenia.add(
-            new Wynagrodzenie(p5, 45, "01.2024")
-    );
+            wynagrodzenia.add(
+                    new Wynagrodzenie(p4, 30, "01.2024")
+            );
 
-    WynagrodzenieStorage.save(wynagrodzenia);
-}
+            wynagrodzenia.add(
+                    new Wynagrodzenie(p5, 45, "01.2024")
+            );
+
+            WynagrodzenieStorage.save(wynagrodzenia);
+        }
 
         // ===== TOWARY =====
 
@@ -223,421 +222,6 @@ if (wynagrodzenia.isEmpty()) {
             );
 
             DostawcaStorage.save(dostawcy);
-        }
-    }
-
-    // ===== POMOCNICZA METODA =====
-
-    private Pracownik findEmployee(
-            String imie,
-            String nazwisko) {
-
-        for (Pracownik pracownik : pracownicy) {
-
-            if (pracownik.getImie().equals(imie)
-                    && pracownik.getNazwisko().equals(nazwisko)) {
-
-                return pracownik;
-            }
-        }
-
-        return null;
-    }
-
-    // ===== MENU GLOWNE =====
-
-    public void start() {
-
-        while (true) {
-
-            System.out.println("""
-                    
-                    --- SKLEP CARREFOUR ---
-                    1. Pracownicy
-                    2. Towary
-                    3. Dostawcy
-                    4. Wynagrodzenia
-                    5. Wyjscie
-                    """);
-
-            int wybor = sc.nextInt();
-            sc.nextLine();
-
-            switch (wybor) {
-                case 1 -> menuPracownicy();
-                case 2 -> menuTowary();
-                case 3 -> menuDostawcy();
-                case 4 -> menuWynagrodzenia();
-                case 5 -> System.exit(0);
-            }
-        }
-    }
-
-    // ================= PRACOWNICY =================
-
-    private void menuPracownicy() {
-
-        System.out.println(
-                "1.Wyswietl  2.Dodaj  3.Usun  4.Sortuj nazwisko"
-        );
-
-        int w = sc.nextInt();
-        sc.nextLine();
-
-        if (w == 1) {
-
-            Printer.drukuj(pracownicy);
-        }
-
-        if (w == 2) {
-
-            System.out.println("Wpisz imie:");
-            String imie = sc.nextLine();
-
-            System.out.println("Wpisz nazwisko:");
-            String nazw = sc.nextLine();
-
-            System.out.println("Wpisz wiek:");
-            int wiek = sc.nextInt();
-            sc.nextLine();
-
-            System.out.println(
-                    "Wpisz stanowisko " +
-                    "(PRACOWNIK, KASJER, MAGAZYNIER, KIEROWNIK):"
-            );
-
-            Stanowisko st =
-                    Stanowisko.valueOf(sc.nextLine());
-
-            System.out.println(
-                    "Wpisz date zatrudnienia (dd.mm.rrrr):"
-            );
-
-            String data = sc.nextLine();
-
-            Pracownik p =
-                    (st == Stanowisko.KIEROWNIK)
-                            ? new Kierownik(
-                                    imie,
-                                    nazw,
-                                    wiek,
-                                    data
-                            )
-                            : new Pracownik(
-                                    imie,
-                                    nazw,
-                                    wiek,
-                                    st,
-                                    data
-                            );
-
-            pracownicy.add(p);
-
-            PracownikStorage.save(pracownicy);
-        }
-
-        if (w == 3) {
-
-            System.out.println(
-                    "Wpisz ID pracownika:"
-            );
-
-            int id = sc.nextInt();
-
-            boolean usunieto =
-                    pracownicy.removeIf(
-                            p -> p.getId() == id
-                    );
-
-            if (usunieto) {
-
-                wynagrodzenia.removeIf(
-                        wyn -> wyn.getPracownikId() == id
-                );
-
-                PracownikStorage.save(pracownicy);
-
-                System.out.println(
-                        "Pracownik usuniety"
-                );
-
-            } else {
-
-                System.out.println(
-                        "Danego pracownika nie istnieje"
-                );
-            }
-        }
-
-        if (w == 4) {
-
-            Collections.sort(pracownicy);
-
-            Printer.drukuj(pracownicy);
-        }
-    }
-
-    // ================= TOWARY =================
-
-    private void menuTowary() {
-
-        System.out.println(
-                "1.Wyswietl  2.Dodaj  3.Usun  4.Sortuj nazwa"
-        );
-
-        int w = sc.nextInt();
-        sc.nextLine();
-
-        if (w == 1) {
-
-            Printer.drukuj(towary);
-        }
-
-        if (w == 2) {
-
-            System.out.println(
-                    "Wpisz nazwe towaru:"
-            );
-
-            String n = sc.nextLine();
-
-            System.out.println(
-                    "Wpisz typ " +
-                    "(JEDZENIE, ODZIEZ, MEBLE, ELEKTRONIKA):"
-            );
-
-            TypTowaru t =
-                    TypTowaru.valueOf(sc.nextLine());
-
-            System.out.println(
-                    "Wpisz cene (z przecinkiem):"
-            );
-
-            double c = sc.nextDouble();
-
-            System.out.println(
-                    "Wpisz ilosc:"
-            );
-
-            int i = sc.nextInt();
-
-            towary.add(
-                    new Towar(n, t, c, i)
-            );
-
-            TowarStorage.save(towary);
-        }
-
-        if (w == 3) {
-
-            System.out.println(
-                    "Wpisz ID towaru:"
-            );
-
-            int id = sc.nextInt();
-
-            boolean usunieto =
-                    towary.removeIf(
-                            t -> t.getId() == id
-                    );
-
-            if (usunieto) {
-
-                TowarStorage.save(towary);
-
-                System.out.println(
-                        "Towar usuniety"
-                );
-
-            } else {
-
-                System.out.println(
-                        "Danego towaru nie istnieje"
-                );
-            }
-        }
-
-        if (w == 4) {
-
-            Collections.sort(towary);
-
-            Printer.drukuj(towary);
-        }
-    }
-
-    // ================= DOSTAWCY =================
-
-    private void menuDostawcy() {
-
-        System.out.println(
-                "1.Wyswietl  2.Dodaj  3.Usun  4.Sortuj nazwa"
-        );
-
-        int w = sc.nextInt();
-        sc.nextLine();
-
-        if (w == 1) {
-
-            Printer.drukuj(dostawcy);
-        }
-
-        if (w == 2) {
-
-            System.out.println(
-                    "Wpisz nazwe dostawcy:"
-            );
-
-            String n = sc.nextLine();
-
-            System.out.println(
-                    "Wpisz typ towaru " +
-                    "(JEDZENIE, ODZIEZ, MEBLE, ELEKTRONIKA):"
-            );
-
-            TypTowaru t =
-                    TypTowaru.valueOf(sc.nextLine());
-
-            System.out.println(
-                    "Wpisz date podpisania umowy:"
-            );
-
-            String d = sc.nextLine();
-
-            dostawcy.add(
-                    new Dostawca(n, t, d)
-            );
-
-            DostawcaStorage.save(dostawcy);
-        }
-
-        if (w == 3) {
-
-            System.out.println(
-                    "Wpisz ID dostawcy:"
-            );
-
-            int id = sc.nextInt();
-
-            boolean usunieto =
-                    dostawcy.removeIf(
-                            d -> d.getId() == id
-                    );
-
-            if (usunieto) {
-
-                DostawcaStorage.save(dostawcy);
-
-                System.out.println(
-                        "Dostawca usuniety"
-                );
-
-            } else {
-
-                System.out.println(
-                        "Danego dostawcy nie istnieje"
-                );
-            }
-        }
-
-        if (w == 4) {
-
-            Collections.sort(dostawcy);
-
-            Printer.drukuj(dostawcy);
-        }
-    }
-
-    // ================= WYNAGRODZENIA =================
-
-    private void menuWynagrodzenia() {
-
-        System.out.println(
-                "1.Wyswietl  2.Dodaj  3.Sortuj nazwisko"
-        );
-
-        int w = sc.nextInt();
-        sc.nextLine();
-
-        if (w == 1) {
-
-            Printer.drukuj(wynagrodzenia);
-        }
-
-        if (w == 2) {
-
-            System.out.println(
-                    "Wpisz ID pracownika:"
-            );
-
-            int id = sc.nextInt();
-            sc.nextLine();
-
-            Pracownik pracownik = null;
-
-            for (Pracownik p : pracownicy) {
-
-                if (p.getId() == id) {
-
-                    pracownik = p;
-                    break;
-                }
-            }
-
-            if (pracownik == null) {
-
-                System.out.println(
-                        "Nie ma takiego pracownika"
-                );
-
-                return;
-            }
-
-            System.out.println(
-                    "Wpisz okres (np. 01.2024):"
-            );
-
-            String okres = sc.nextLine();
-
-            for (Wynagrodzenie wyna : wynagrodzenia) {
-
-                if (
-                        wyna.getPracownikId() == id
-                                &&
-                        wyna.getOkres().equals(okres)
-                ) {
-
-                    System.out.println(
-                            "To wynagrodzenie juz istnieje!"
-                    );
-
-                    return;
-                }
-            }
-
-            System.out.println(
-                    "Wpisz liczbe przepracowanych godzin:"
-            );
-
-            int godziny = sc.nextInt();
-
-            wynagrodzenia.add(
-                    new Wynagrodzenie(
-                            pracownik,
-                            godziny,
-                            okres
-                    )
-            );
-
-            System.out.println(
-                    "Dodano wynagrodzenie"
-            );
-        }
-
-        if (w == 3) {
-
-            Collections.sort(wynagrodzenia);
-
-            Printer.drukuj(wynagrodzenia);
         }
     }
 }
