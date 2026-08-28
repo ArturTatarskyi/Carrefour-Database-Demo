@@ -30,6 +30,14 @@ public class Menu {
 
     public Menu() {
 
+        // ===== TYPY TOWAROW =====
+
+TypTowaruStorage.load();
+
+        // ===== STANOWISKA =====
+
+StanowiskoStorage.load();
+
         // ===== PRACOWNICY =====
 
         pracownicy.addAll(PracownikStorage.load());

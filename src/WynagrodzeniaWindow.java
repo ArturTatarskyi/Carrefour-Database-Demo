@@ -10,6 +10,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.time.Year;
+import java.time.YearMonth;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class WynagrodzeniaWindow {
 
@@ -17,53 +22,88 @@ public class WynagrodzeniaWindow {
 
         Stage stage = new Stage();
 
-        ListView<String> salariesList = new ListView<>();
+        ListView<String> salariesList =
+                new ListView<>();
 
-        updateSalariesList(salariesList, menu);
+        updateSalariesList(
+                salariesList,
+                menu
+        );
 
-        Button addButton = new Button("Dodaj");
-Button deleteButton = new Button("Usun");
-Button sortButton = new Button("Sortuj nazwisko");
-Button closeButton = new Button("Zamknij");
+        Button addButton =
+                new Button("Dodaj");
+
+        Button deleteButton =
+                new Button("Usun");
+
+        Button sortButton =
+                new Button("Sortuj nazwisko");
+
+        Button closeButton =
+                new Button("Zamknij");
 
         addButton.setOnAction(
-                event -> showAddWindow(menu, salariesList)
+                event -> showAddWindow(
+                        menu,
+                        salariesList
+                )
         );
 
         deleteButton.setOnAction(
-        event -> deleteSalary(menu, salariesList)
-);
+                event -> deleteSalary(
+                        menu,
+                        salariesList
+                )
+        );
 
         sortButton.setOnAction(event -> {
-            menu.getWynagrodzenia().sort(null);
-            updateSalariesList(salariesList, menu);
+
+            menu.getWynagrodzenia()
+                    .sort(null);
+
+            updateSalariesList(
+                    salariesList,
+                    menu
+            );
         });
 
         closeButton.setOnAction(
                 event -> stage.close()
         );
 
-        HBox buttons = new HBox(10);
+        HBox buttons =
+                new HBox(10);
 
         buttons.getChildren().addAll(
-        addButton,
-        deleteButton,
-        sortButton,
-        closeButton
-);
+                addButton,
+                deleteButton,
+                sortButton,
+                closeButton
+        );
 
-        VBox layout = new VBox(10);
+        VBox layout =
+                new VBox(10);
 
-        layout.setPadding(new Insets(15));
+        layout.setPadding(
+                new Insets(15)
+        );
 
         layout.getChildren().addAll(
                 salariesList,
                 buttons
         );
 
-        Scene scene = new Scene(layout, 750, 450);
+        Scene scene =
+                new Scene(
+                        layout,
+                        750,
+                        450
+                );
 
-        stage.setTitle("Wynagrodzenia");
+        stage.setTitle(
+                "Wynagrodzenia"
+        );
+
         stage.setScene(scene);
         stage.show();
     }
@@ -77,30 +117,20 @@ Button closeButton = new Button("Zamknij");
         for (Wynagrodzenie wynagrodzenie :
                 menu.getWynagrodzenia()) {
 
-            salariesList.getItems().add(
-                    wynagrodzenie.toString()
-            );
+            salariesList
+                    .getItems()
+                    .add(
+                            wynagrodzenie.toString()
+                    );
         }
-    }
-
-    private static void showError(String message) {
-
-        Alert alert = new Alert(
-                Alert.AlertType.ERROR
-        );
-
-        alert.setTitle("Blad");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-
-        alert.showAndWait();
     }
 
     private static void showAddWindow(
             Menu menu,
             ListView<String> salariesList) {
 
-        Stage stage = new Stage();
+        Stage stage =
+                new Stage();
 
         Label employeeLabel =
                 new Label("Pracownik:");
@@ -112,24 +142,73 @@ Button closeButton = new Button("Zamknij");
                 menu.getPracownicy()
         );
 
-        if (!employeeBox.getItems().isEmpty()) {
+        if (!employeeBox
+                .getItems()
+                .isEmpty()) {
+
             employeeBox.setValue(
-                    employeeBox.getItems().get(0)
+                    employeeBox
+                            .getItems()
+                            .get(0)
             );
         }
 
         Label periodLabel =
                 new Label("Okres:");
 
-        TextField periodField =
-                new TextField();
+        ComboBox<String> monthBox =
+                new ComboBox<>();
 
-        periodField.setPromptText(
-                "np. 01.2024"
+        monthBox.getItems().addAll(
+                "01",
+                "02",
+                "03",
+                "04",
+                "05",
+                "06",
+                "07",
+                "08",
+                "09",
+                "10",
+                "11",
+                "12"
+        );
+
+        monthBox.setPromptText(
+                "Miesiac"
+        );
+
+        ComboBox<Integer> yearBox =
+                new ComboBox<>();
+
+        int currentYear =
+        Year.now().getValue();
+
+for (int year = 2000;
+     year <= currentYear + 5;
+     year++) {
+
+    yearBox
+            .getItems()
+            .add(year);
+}
+
+        yearBox.setPromptText(
+                "Rok"
+        );
+
+        HBox periodBox =
+                new HBox(10);
+
+        periodBox.getChildren().addAll(
+                monthBox,
+                yearBox
         );
 
         Label hoursLabel =
-                new Label("Liczba godzin:");
+                new Label(
+                        "Liczba godzin:"
+                );
 
         TextField hoursField =
                 new TextField();
@@ -140,56 +219,112 @@ Button closeButton = new Button("Zamknij");
         Button cancelButton =
                 new Button("Anuluj");
 
-        GridPane form = new GridPane();
+        GridPane form =
+                new GridPane();
 
         form.setHgap(10);
         form.setVgap(10);
-        form.setPadding(new Insets(15));
 
-        form.add(employeeLabel, 0, 0);
-        form.add(employeeBox, 1, 0);
+        form.setPadding(
+                new Insets(15)
+        );
 
-        form.add(periodLabel, 0, 1);
-        form.add(periodField, 1, 1);
+        form.add(
+                employeeLabel,
+                0,
+                0
+        );
 
-        form.add(hoursLabel, 0, 2);
-        form.add(hoursField, 1, 2);
+        form.add(
+                employeeBox,
+                1,
+                0
+        );
 
-        HBox buttons = new HBox(10);
+        form.add(
+                periodLabel,
+                0,
+                1
+        );
+
+        form.add(
+                periodBox,
+                1,
+                1
+        );
+
+        form.add(
+                hoursLabel,
+                0,
+                2
+        );
+
+        form.add(
+                hoursField,
+                1,
+                2
+        );
+
+        HBox buttons =
+                new HBox(10);
 
         buttons.getChildren().addAll(
                 addButton,
                 cancelButton
         );
 
-        form.add(buttons, 1, 3);
+        form.add(
+                buttons,
+                1,
+                3
+        );
 
         addButton.setOnAction(event -> {
 
-            if (employeeBox.getValue() == null) {
+            if (employeeBox.getValue()
+                    == null) {
+
                 showError(
                         "Wybierz pracownika."
                 );
+
+                return;
+            }
+
+            if (monthBox.getValue()
+                    == null) {
+
+                showError(
+                        "Wybierz miesiac."
+                );
+
+                return;
+            }
+
+            if (yearBox.getValue()
+                    == null) {
+
+                showError(
+                        "Wybierz rok."
+                );
+
                 return;
             }
 
             String period =
-                    periodField.getText();
+                    monthBox.getValue()
+                            + "."
+                            + yearBox.getValue();
 
             String hoursText =
                     hoursField.getText();
 
-            if (period.isBlank()) {
-                showError(
-                        "Okres nie moze byc pusty."
-                );
-                return;
-            }
-
             if (hoursText.isBlank()) {
+
                 showError(
                         "Liczba godzin nie moze byc pusta."
                 );
+
                 return;
             }
 
@@ -197,9 +332,10 @@ Button closeButton = new Button("Zamknij");
 
             try {
 
-                hours = Integer.parseInt(
-                        hoursText
-                );
+                hours =
+                        Integer.parseInt(
+                                hoursText
+                        );
 
             } catch (NumberFormatException e) {
 
@@ -222,14 +358,62 @@ Button closeButton = new Button("Zamknij");
             Pracownik employee =
                     employeeBox.getValue();
 
+                    try {
+
+    DateTimeFormatter employmentFormatter =
+            DateTimeFormatter.ofPattern(
+                    "dd.MM.yyyy"
+            );
+
+    LocalDate employmentDate =
+            LocalDate.parse(
+                    employee.getDataZatrudnienia(),
+                    employmentFormatter
+            );
+
+    YearMonth employmentMonth =
+            YearMonth.from(
+                    employmentDate
+            );
+
+    YearMonth salaryMonth =
+            YearMonth.of(
+                    yearBox.getValue(),
+                    Integer.parseInt(
+                            monthBox.getValue()
+                    )
+            );
+
+    if (salaryMonth.isBefore(
+            employmentMonth)) {
+
+        showError(
+                "Nie mozna dodac wynagrodzenia "
+                        + "za okres przed zatrudnieniem pracownika."
+        );
+
+        return;
+    }
+
+} catch (DateTimeParseException e) {
+
+    showError(
+            "Nieprawidlowa data zatrudnienia pracownika."
+    );
+
+    return;
+}
+
             for (Wynagrodzenie wynagrodzenie :
                     menu.getWynagrodzenia()) {
 
                 if (
-                        wynagrodzenie.getPracownikId()
+                        wynagrodzenie
+                                .getPracownikId()
                                 == employee.getId()
                                 &&
-                        wynagrodzenie.getOkres()
+                        wynagrodzenie
+                                .getOkres()
                                 .equals(period)
                 ) {
 
@@ -248,13 +432,12 @@ Button closeButton = new Button("Zamknij");
                             period
                     );
 
-            menu.getWynagrodzenia().add(
-                    newSalary
-            );
+            menu.getWynagrodzenia()
+                    .add(newSalary);
 
             WynagrodzenieStorage.save(
-        menu.getWynagrodzenia()
-);
+                    menu.getWynagrodzenia()
+            );
 
             updateSalariesList(
                     salariesList,
@@ -268,11 +451,12 @@ Button closeButton = new Button("Zamknij");
                 event -> stage.close()
         );
 
-        Scene scene = new Scene(
-                form,
-                500,
-                250
-        );
+        Scene scene =
+                new Scene(
+                        form,
+                        500,
+                        250
+                );
 
         stage.setTitle(
                 "Dodaj Wynagrodzenie"
@@ -281,63 +465,86 @@ Button closeButton = new Button("Zamknij");
         stage.setScene(scene);
         stage.show();
     }
+
     private static void deleteSalary(
-        Menu menu,
-        ListView<String> salariesList) {
+            Menu menu,
+            ListView<String> salariesList) {
 
-    int selectedIndex =
-            salariesList
-                    .getSelectionModel()
-                    .getSelectedIndex();
+        int selectedIndex =
+                salariesList
+                        .getSelectionModel()
+                        .getSelectedIndex();
 
-    if (selectedIndex == -1) {
+        if (selectedIndex == -1) {
 
-        showError(
-                "Wybierz wynagrodzenie do usuniecia."
+            showError(
+                    "Wybierz wynagrodzenie do usuniecia."
+            );
+
+            return;
+        }
+
+        Wynagrodzenie selectedSalary =
+                menu.getWynagrodzenia()
+                        .get(selectedIndex);
+
+        Alert confirmation =
+                new Alert(
+                        Alert.AlertType.CONFIRMATION
+                );
+
+        confirmation.setTitle(
+                "Usuwanie wynagrodzenia"
         );
 
-        return;
+        confirmation.setHeaderText(null);
+
+        confirmation.setContentText(
+                "Czy na pewno chcesz usunac wynagrodzenie:\n"
+                        + selectedSalary
+        );
+
+        confirmation.showAndWait()
+                .ifPresent(response -> {
+
+                    if (response ==
+                            javafx.scene.control.ButtonType.OK) {
+
+                        menu.getWynagrodzenia()
+                                .remove(
+                                        selectedSalary
+                                );
+
+                        WynagrodzenieStorage.save(
+                                menu.getWynagrodzenia()
+                        );
+
+                        updateSalariesList(
+                                salariesList,
+                                menu
+                        );
+                    }
+                });
     }
 
-    Wynagrodzenie selectedSalary =
-            menu.getWynagrodzenia()
-                    .get(selectedIndex);
+    private static void showError(
+            String message) {
 
-    Alert confirmation = new Alert(
-            Alert.AlertType.CONFIRMATION
-    );
+        Alert alert =
+                new Alert(
+                        Alert.AlertType.ERROR
+                );
 
-    confirmation.setTitle(
-            "Usuwanie wynagrodzenia"
-    );
+        alert.setTitle(
+                "Blad"
+        );
 
-    confirmation.setHeaderText(null);
+        alert.setHeaderText(null);
 
-    confirmation.setContentText(
-            "Czy na pewno chcesz usunac wynagrodzenie:\n"
-                    + selectedSalary
-    );
+        alert.setContentText(
+                message
+        );
 
-    confirmation.showAndWait().ifPresent(
-            response -> {
-
-                if (response ==
-                        javafx.scene.control.ButtonType.OK) {
-
-                    menu.getWynagrodzenia().remove(
-                            selectedSalary
-                    );
-
-                    WynagrodzenieStorage.save(
-                            menu.getWynagrodzenia()
-                    );
-
-                    updateSalariesList(
-                            salariesList,
-                            menu
-                    );
-                }
-            }
-    );
+        alert.showAndWait();
     }
 }

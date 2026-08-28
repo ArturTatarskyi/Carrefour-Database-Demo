@@ -1,7 +1,11 @@
 import javafx.geometry.Insets;
+import javafx.scene.control.DatePicker;
+import java.time.format.DateTimeFormatter;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -17,33 +21,57 @@ public class PracownicyWindow {
 
         Stage stage = new Stage();
 
-        ListView<String> employeesList = new ListView<>();
+        ListView<String> employeesList =
+                new ListView<>();
 
-        updateEmployeesList(employeesList, menu);
+        updateEmployeesList(
+                employeesList,
+                menu
+        );
 
-        Button addButton = new Button("Dodaj");
-        Button deleteButton = new Button("Usun");
-        Button sortButton = new Button("Sortuj nazwisko");
-        Button closeButton = new Button("Zamknij");
+        Button addButton =
+                new Button("Dodaj");
+
+        Button deleteButton =
+                new Button("Usun");
+
+        Button sortButton =
+                new Button("Sortuj nazwisko");
+
+        Button closeButton =
+                new Button("Zamknij");
 
         addButton.setOnAction(
-                event -> showAddWindow(menu, employeesList)
+                event -> showAddWindow(
+                        menu,
+                        employeesList
+                )
         );
 
         deleteButton.setOnAction(
-                event -> deleteEmployee(menu, employeesList)
+                event -> deleteEmployee(
+                        menu,
+                        employeesList
+                )
         );
 
         sortButton.setOnAction(event -> {
-            menu.getPracownicy().sort(null);
-            updateEmployeesList(employeesList, menu);
+
+            menu.getPracownicy()
+                    .sort(null);
+
+            updateEmployeesList(
+                    employeesList,
+                    menu
+            );
         });
 
         closeButton.setOnAction(
                 event -> stage.close()
         );
 
-        HBox buttons = new HBox(10);
+        HBox buttons =
+                new HBox(10);
 
         buttons.getChildren().addAll(
                 addButton,
@@ -52,18 +80,29 @@ public class PracownicyWindow {
                 closeButton
         );
 
-        VBox layout = new VBox(10);
+        VBox layout =
+                new VBox(10);
 
-        layout.setPadding(new Insets(15));
+        layout.setPadding(
+                new Insets(15)
+        );
 
         layout.getChildren().addAll(
                 employeesList,
                 buttons
         );
 
-        Scene scene = new Scene(layout, 750, 450);
+        Scene scene =
+                new Scene(
+                        layout,
+                        750,
+                        450
+                );
 
-        stage.setTitle("Pracownicy");
+        stage.setTitle(
+                "Pracownicy"
+        );
+
         stage.setScene(scene);
         stage.show();
     }
@@ -74,173 +113,331 @@ public class PracownicyWindow {
 
         employeesList.getItems().clear();
 
-        for (Pracownik pracownik : menu.getPracownicy()) {
-            employeesList.getItems().add(
-                    pracownik.toString()
-            );
+        for (Pracownik pracownik :
+                menu.getPracownicy()) {
+
+            employeesList
+                    .getItems()
+                    .add(
+                            pracownik.toString()
+                    );
         }
-    }
-
-    private static void showError(String message) {
-
-        Alert alert = new Alert(
-                Alert.AlertType.ERROR
-        );
-
-        alert.setTitle("Blad");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-
-        alert.showAndWait();
     }
 
     private static void showAddWindow(
             Menu menu,
             ListView<String> employeesList) {
 
-        Stage stage = new Stage();
+        Stage stage =
+                new Stage();
 
-        Label nameLabel = new Label("Imie:");
-        TextField nameField = new TextField();
+        Label nameLabel =
+                new Label("Imie:");
 
-        Label surnameLabel = new Label("Nazwisko:");
-        TextField surnameField = new TextField();
+        TextField nameField =
+                new TextField();
 
-        Label ageLabel = new Label("Wiek:");
-        TextField ageField = new TextField();
+        Label surnameLabel =
+                new Label("Nazwisko:");
 
-        Label positionLabel = new Label("Stanowisko:");
-        ComboBox<Stanowisko> positionBox = new ComboBox<>();
+        TextField surnameField =
+                new TextField();
 
-        positionBox.getItems().addAll(
-                Stanowisko.values()
+        Label ageLabel =
+                new Label("Wiek:");
+
+        TextField ageField =
+                new TextField();
+
+        Label positionLabel =
+                new Label("Stanowisko:");
+
+        ComboBox<Stanowisko> positionBox =
+                new ComboBox<>();
+
+        refreshPositionBox(
+                positionBox
         );
 
         positionBox.setValue(
                 Stanowisko.PRACOWNIK
         );
 
-        Label dateLabel = new Label(
-                "Data zatrudnienia:"
-        );
+        Button addPositionButton =
+                new Button(
+                        "Dodaj stanowisko"
+                );
 
-        TextField dateField = new TextField();
+        Button deletePositionButton =
+                new Button(
+                        "Usun stanowisko"
+                );
 
-        Button addButton = new Button("Dodaj");
-        Button cancelButton = new Button("Anuluj");
+        Label dateLabel =
+                new Label(
+                        "Data zatrudnienia:"
+                );
 
-        GridPane form = new GridPane();
+        DatePicker datePicker =
+        new DatePicker();
+
+        datePicker.setEditable(false);
+
+        Button addButton =
+                new Button("Dodaj");
+
+        Button cancelButton =
+                new Button("Anuluj");
+
+        GridPane form =
+                new GridPane();
 
         form.setHgap(10);
         form.setVgap(10);
-        form.setPadding(new Insets(15));
 
-        form.add(nameLabel, 0, 0);
-        form.add(nameField, 1, 0);
+        form.setPadding(
+                new Insets(15)
+        );
 
-        form.add(surnameLabel, 0, 1);
-        form.add(surnameField, 1, 1);
+        form.add(
+                nameLabel,
+                0,
+                0
+        );
 
-        form.add(ageLabel, 0, 2);
-        form.add(ageField, 1, 2);
+        form.add(
+                nameField,
+                1,
+                0
+        );
 
-        form.add(positionLabel, 0, 3);
-        form.add(positionBox, 1, 3);
+        form.add(
+                surnameLabel,
+                0,
+                1
+        );
 
-        form.add(dateLabel, 0, 4);
-        form.add(dateField, 1, 4);
+        form.add(
+                surnameField,
+                1,
+                1
+        );
 
-        HBox buttons = new HBox(10);
+        form.add(
+                ageLabel,
+                0,
+                2
+        );
+
+        form.add(
+                ageField,
+                1,
+                2
+        );
+
+        form.add(
+                positionLabel,
+                0,
+                3
+        );
+
+        form.add(
+                positionBox,
+                1,
+                3
+        );
+
+        HBox positionButtons =
+                new HBox(10);
+
+        positionButtons.getChildren().addAll(
+                addPositionButton,
+                deletePositionButton
+        );
+
+        form.add(
+                positionButtons,
+                2,
+                3
+        );
+
+        form.add(
+                dateLabel,
+                0,
+                4
+        );
+
+        form.add(
+                datePicker,
+                1,
+                4
+        );
+
+        HBox buttons =
+                new HBox(10);
 
         buttons.getChildren().addAll(
                 addButton,
                 cancelButton
         );
 
-        form.add(buttons, 1, 5);
+        form.add(
+                buttons,
+                1,
+                5
+        );
+
+        addPositionButton.setOnAction(
+                event -> showAddPositionWindow(
+                        positionBox
+                )
+        );
+
+        deletePositionButton.setOnAction(
+                event -> deletePosition(
+                        menu,
+                        positionBox
+                )
+        );
 
         addButton.setOnAction(event -> {
 
-            String name = nameField.getText();
-            String surname = surnameField.getText();
-            String ageText = ageField.getText();
-            String date = dateField.getText();
+            String name =
+                    nameField.getText();
+
+            String surname =
+                    surnameField.getText();
+
+            String ageText =
+                    ageField.getText();
+
 
             if (name.isBlank()) {
+
                 showError(
                         "Imie nie moze byc puste."
                 );
+
                 return;
             }
 
+            if (!name.matches("[\\p{L}]+")) {
+
+    showError(
+            "Imie moze zawierac tylko litery."
+    );
+
+    return;
+}
+
             if (surname.isBlank()) {
+
                 showError(
                         "Nazwisko nie moze byc puste."
                 );
+
                 return;
             }
 
+            if (!surname.matches("[\\p{L}]+")) {
+
+    showError(
+            "Nazwisko moze zawierac tylko litery."
+    );
+
+    return;
+}
+
             if (ageText.isBlank()) {
+
                 showError(
                         "Wiek nie moze byc pusty."
                 );
+
                 return;
             }
 
-            if (date.isBlank()) {
-                showError(
-                        "Data zatrudnienia nie moze byc pusta."
-                );
-                return;
-            }
+            if (datePicker.getValue() == null) {
+
+    showError(
+            "Wybierz date zatrudnienia."
+    );
+
+    return;
+}
+
+DateTimeFormatter formatter =
+        DateTimeFormatter.ofPattern(
+                "dd.MM.yyyy"
+        );
+
+String date =
+        datePicker
+                .getValue()
+                .format(formatter);
 
             int age;
 
             try {
-                age = Integer.parseInt(ageText);
+
+                age =
+                        Integer.parseInt(
+                                ageText
+                        );
+
             } catch (NumberFormatException e) {
+
                 showError(
                         "Wiek musi byc liczba."
                 );
+
                 return;
             }
 
             Stanowisko position =
                     positionBox.getValue();
 
+            if (position == null) {
+
+                showError(
+                        "Wybierz stanowisko."
+                );
+
+                return;
+            }
+
             Pracownik newEmployee;
 
-            if (position == Stanowisko.KIEROWNIK) {
+            if (position.isKierownicze()) {
 
-                newEmployee = new Kierownik(
-                        name,
-                        surname,
-                        age,
-                        date
-                );
+                newEmployee =
+                        new Kierownik(
+                                name,
+                                surname,
+                                age,
+                                position,
+                                date
+                        );
 
             } else {
 
-                newEmployee = new Pracownik(
-                        name,
-                        surname,
-                        age,
-                        position,
-                        date
-                );
+                newEmployee =
+                        new Pracownik(
+                                name,
+                                surname,
+                                age,
+                                position,
+                                date
+                        );
             }
 
-            // Dodajemy pracownika do listy
-            menu.getPracownicy().add(
-                    newEmployee
-            );
+            menu.getPracownicy()
+                    .add(newEmployee);
 
-            // Zapisujemy liste do pliku
             PracownikStorage.save(
                     menu.getPracownicy()
             );
 
-            // Odświeżamy listę w GUI
             updateEmployeesList(
                     employeesList,
                     menu
@@ -253,15 +450,217 @@ public class PracownicyWindow {
                 event -> stage.close()
         );
 
-        Scene scene = new Scene(
-                form,
-                500,
-                300
+        Scene scene =
+                new Scene(
+                        form,
+                        780,
+                        320
+                );
+
+        stage.setTitle(
+                "Dodaj Pracownika"
         );
 
-        stage.setTitle("Dodaj Pracownika");
         stage.setScene(scene);
         stage.show();
+    }
+
+    private static void showAddPositionWindow(
+            ComboBox<Stanowisko> positionBox) {
+
+        Stage stage =
+                new Stage();
+
+        Label nameLabel =
+                new Label(
+                        "Nazwa stanowiska:"
+                );
+
+        TextField nameField =
+                new TextField();
+
+        CheckBox managerCheckBox =
+                new CheckBox(
+                        "Stanowisko kierownicze"
+                );
+
+        Button addButton =
+                new Button("Dodaj");
+
+        Button cancelButton =
+                new Button("Anuluj");
+
+        HBox buttons =
+                new HBox(10);
+
+        buttons.getChildren().addAll(
+                addButton,
+                cancelButton
+        );
+
+        VBox layout =
+                new VBox(10);
+
+        layout.setPadding(
+                new Insets(15)
+        );
+
+        layout.getChildren().addAll(
+                nameLabel,
+                nameField,
+                managerCheckBox,
+                buttons
+        );
+
+        addButton.setOnAction(event -> {
+
+            String positionName =
+                    nameField.getText();
+
+            if (positionName.isBlank()) {
+
+                showError(
+                        "Nazwa stanowiska nie moze byc pusta."
+                );
+
+                return;
+            }
+
+            boolean managerial =
+                    managerCheckBox.isSelected();
+
+            Stanowisko newPosition =
+                    Stanowisko.dodajStanowisko(
+                            positionName,
+                            managerial
+                    );
+
+            StanowiskoStorage.save();
+
+            refreshPositionBox(
+                    positionBox
+            );
+
+            positionBox.setValue(
+                    newPosition
+            );
+
+            stage.close();
+        });
+
+        cancelButton.setOnAction(
+                event -> stage.close()
+        );
+
+        Scene scene =
+                new Scene(
+                        layout,
+                        380,
+                        190
+                );
+
+        stage.setTitle(
+                "Dodaj stanowisko"
+        );
+
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private static void deletePosition(
+            Menu menu,
+            ComboBox<Stanowisko> positionBox) {
+
+        Stanowisko selectedPosition =
+                positionBox.getValue();
+
+        if (selectedPosition == null) {
+
+            showError(
+                    "Wybierz stanowisko, ktore chcesz usunac."
+            );
+
+            return;
+        }
+
+        if (Stanowisko.czyPodstawowe(
+                selectedPosition)) {
+
+            showError(
+                    "Nie mozna usunac podstawowego stanowiska."
+            );
+
+            return;
+        }
+
+        for (Pracownik pracownik :
+                menu.getPracownicy()) {
+
+            if (pracownik
+                    .getStanowisko()
+                    .equals(selectedPosition)) {
+
+                showError(
+                        "Nie mozna usunac tego stanowiska, "
+                                + "poniewaz jest uzywane przez pracownika."
+                );
+
+                return;
+            }
+        }
+
+        Alert confirmation =
+                new Alert(
+                        Alert.AlertType.CONFIRMATION
+                );
+
+        confirmation.setTitle(
+                "Usuwanie stanowiska"
+        );
+
+        confirmation.setHeaderText(null);
+
+        confirmation.setContentText(
+                "Czy na pewno chcesz usunac stanowisko: "
+                        + selectedPosition
+                        + "?"
+        );
+
+        confirmation.showAndWait()
+                .ifPresent(response -> {
+
+                    if (response
+                            == ButtonType.OK) {
+
+                        boolean deleted =
+                                Stanowisko.usunStanowisko(
+                                        selectedPosition
+                                );
+
+                        if (deleted) {
+
+                            StanowiskoStorage.save();
+
+                            refreshPositionBox(
+                                    positionBox
+                            );
+
+                            positionBox.setValue(
+                                    Stanowisko.PRACOWNIK
+                            );
+                        }
+                    }
+                });
+    }
+
+    private static void refreshPositionBox(
+            ComboBox<Stanowisko> positionBox) {
+
+        positionBox.getItems().clear();
+
+        positionBox.getItems().addAll(
+                Stanowisko.values()
+        );
     }
 
     private static void deleteEmployee(
@@ -286,9 +685,10 @@ public class PracownicyWindow {
                 menu.getPracownicy()
                         .get(selectedIndex);
 
-        Alert confirmation = new Alert(
-                Alert.AlertType.CONFIRMATION
-        );
+        Alert confirmation =
+                new Alert(
+                        Alert.AlertType.CONFIRMATION
+                );
 
         confirmation.setTitle(
                 "Usuwanie pracownika"
@@ -301,43 +701,56 @@ public class PracownicyWindow {
                         + selectedEmployee
         );
 
-        confirmation.showAndWait().ifPresent(
-                response -> {
+        confirmation.showAndWait()
+                .ifPresent(response -> {
 
-                    if (response ==
-                            javafx.scene.control.ButtonType.OK) {
+                    if (response
+                            == ButtonType.OK) {
 
-                        // Zapamiętujemy ID pracownika
                         int employeeId =
-                                selectedEmployee.getId();
-
-                        // Usuwamy pracownika
-                        menu.getPracownicy().remove(
                                 selectedEmployee
-                        );
+                                        .getId();
 
-                        // Usuwamy wszystkie jego wynagrodzenia
-                        menu.getWynagrodzenia().removeIf(
-                                wyn -> wyn.getPracownikId() == employeeId
-                        );
+                        menu.getPracownicy()
+                                .remove(
+                                        selectedEmployee
+                                );
 
-                        // Zapisujemy pracowników
+                        menu.getWynagrodzenia()
+                                .removeIf(
+                                        wyn ->
+                                                wyn.getPracownikId()
+                                                        == employeeId
+                                );
+
                         PracownikStorage.save(
                                 menu.getPracownicy()
                         );
 
-                        // Zapisujemy wynagrodzenia
                         WynagrodzenieStorage.save(
                                 menu.getWynagrodzenia()
                         );
 
-                        // Odświeżamy listę pracowników w GUI
                         updateEmployeesList(
                                 employeesList,
                                 menu
                         );
                     }
-                }
-        );
+                });
+    }
+
+    private static void showError(
+            String message) {
+
+        Alert alert =
+                new Alert(
+                        Alert.AlertType.ERROR
+                );
+
+        alert.setTitle("Blad");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        alert.showAndWait();
     }
 }

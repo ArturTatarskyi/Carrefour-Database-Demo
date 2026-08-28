@@ -64,13 +64,14 @@ public class PracownikStorage {
 
                 Pracownik pracownik;
 
-if (stanowisko == Stanowisko.KIEROWNIK) {
+if (stanowisko.isKierownicze()) {
 
     pracownik = new Kierownik(
             id,
             imie,
             nazwisko,
             wiek,
+            stanowisko,
             dataZatrudnienia
     );
 

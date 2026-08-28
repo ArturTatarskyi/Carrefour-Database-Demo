@@ -1,0 +1,4 @@
+PRACOWNIK;false
+KASJER;false
+MAGAZYNIER;false
+KIEROWNIK;true

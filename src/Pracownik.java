@@ -53,7 +53,7 @@ public String getDataZatrudnienia() {
 
     @Override
     public String getRola() {
-        return stanowisko.name();
+        return stanowisko.getNazwa();
     }
 
     @Override
