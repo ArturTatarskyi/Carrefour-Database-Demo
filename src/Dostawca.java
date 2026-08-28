@@ -12,21 +12,28 @@ public class Dostawca implements Comparable<Dostawca> {
         this.dataUmowy = dataUmowy;
     }
 
+    public Dostawca(int id, String nazwa, TypTowaru typTowaru, String dataUmowy) {
+        this.id = id;
+        this.nazwa = nazwa;
+        this.typTowaru = typTowaru;
+        this.dataUmowy = dataUmowy;
+    }
+
     public int getId() {
         return id;
     }
 
     public String getNazwa() {
-    return nazwa;
-}
+        return nazwa;
+    }
 
-public TypTowaru getTypTowaru() {
-    return typTowaru;
-}
+    public TypTowaru getTypTowaru() {
+        return typTowaru;
+    }
 
-public String getDataUmowy() {
-    return dataUmowy;
-}
+    public String getDataUmowy() {
+        return dataUmowy;
+    }
 
     @Override
     public int compareTo(Dostawca o) {
