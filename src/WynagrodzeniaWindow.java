@@ -22,7 +22,14 @@ public class WynagrodzeniaWindow {
 
                 Stage stage = new Stage();
 
+                Label title = new Label("Wynagrodzenia");
+
+                title.getStyleClass().add("section-title");
+
+
                 ListView<String> salariesList = new ListView<>();
+
+                salariesList.getStyleClass().add("data-list");
 
                 updateSalariesList(
                                 salariesList,
@@ -35,6 +42,15 @@ public class WynagrodzeniaWindow {
                 Button sortButton = new Button("Sortuj nazwisko");
 
                 Button closeButton = new Button("Zamknij");
+
+
+                addButton.getStyleClass().add("action-button");
+
+                deleteButton.getStyleClass().add("action-button");
+
+                sortButton.getStyleClass().add("action-button");
+
+                closeButton.getStyleClass().addAll("action-button", "secondary-button");
 
                 addButton.setOnAction(
                                 event -> showAddWindow(
@@ -67,12 +83,15 @@ public class WynagrodzeniaWindow {
                                 sortButton,
                                 closeButton);
 
-                VBox layout = new VBox(10);
+                VBox layout = new VBox(15);
 
                 layout.setPadding(
-                                new Insets(15));
+                                new Insets(20));
+
+                layout.getStyleClass().add("window-container");
 
                 layout.getChildren().addAll(
+                title,
                                 salariesList,
                                 buttons);
 
@@ -80,6 +99,9 @@ public class WynagrodzeniaWindow {
                                 layout,
                                 750,
                                 450);
+
+                applyStylesheet(scene);
+
 
                 stage.setTitle(
                                 "Wynagrodzenia");
@@ -367,6 +389,9 @@ public class WynagrodzeniaWindow {
                                 500,
                                 250);
 
+                applyStylesheet(scene);
+
+
                 stage.setTitle(
                                 "Dodaj Wynagrodzenie");
 
@@ -440,4 +465,11 @@ public class WynagrodzeniaWindow {
 
                 alert.showAndWait();
         }
+
+    private static void applyStylesheet(Scene scene) {
+        scene.getStylesheets().add(
+                WynagrodzeniaWindow.class
+                        .getResource("style.css")
+                        .toExternalForm());
+    }
 }

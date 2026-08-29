@@ -1,0 +1,77 @@
+.root {
+    -fx-font-family: "Segoe UI";
+}
+
+.main-container,
+.window-container {
+    -fx-background-color: #f4f6f8;
+}
+
+.main-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+.section-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.menu-button {
+    -fx-pref-width: 220px;
+    -fx-pref-height: 42px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+
+.menu-button:hover {
+    -fx-opacity: 0.85;
+}
+
+.exit-button {
+    -fx-background-color: #dddddd;
+}
+
+.action-button {
+    -fx-min-height: 36px;
+    -fx-padding: 8px 16px;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 7px;
+    -fx-cursor: hand;
+}
+
+.action-button:hover,
+.small-button:hover {
+    -fx-opacity: 0.85;
+}
+
+.secondary-button {
+    -fx-background-color: #dddddd;
+}
+
+.small-button {
+    -fx-min-height: 32px;
+    -fx-padding: 6px 12px;
+    -fx-background-radius: 7px;
+    -fx-cursor: hand;
+}
+
+.button-bar {
+    -fx-alignment: center-left;
+}
+
+.data-list {
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+}
+
+.form-grid {
+    -fx-padding: 5px 0 0 0;
+}
+
+.form-control {
+    -fx-pref-width: 220px;
+}

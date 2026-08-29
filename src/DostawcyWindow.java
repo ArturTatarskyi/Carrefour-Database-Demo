@@ -20,7 +20,14 @@ public class DostawcyWindow {
 
                 Stage stage = new Stage();
 
+                Label title = new Label("Dostawcy");
+
+                title.getStyleClass().add("section-title");
+
+
                 ListView<String> suppliersList = new ListView<>();
+
+                suppliersList.getStyleClass().add("data-list");
 
                 updateSuppliersList(
                                 suppliersList,
@@ -33,6 +40,15 @@ public class DostawcyWindow {
                 Button sortButton = new Button("Sortuj nazwa");
 
                 Button closeButton = new Button("Zamknij");
+
+
+                addButton.getStyleClass().add("action-button");
+
+                deleteButton.getStyleClass().add("action-button");
+
+                sortButton.getStyleClass().add("action-button");
+
+                closeButton.getStyleClass().addAll("action-button", "secondary-button");
 
                 addButton.setOnAction(
                                 event -> showAddWindow(
@@ -64,12 +80,15 @@ public class DostawcyWindow {
                                 sortButton,
                                 closeButton);
 
-                VBox layout = new VBox(10);
+                VBox layout = new VBox(15);
 
                 layout.setPadding(
-                                new Insets(15));
+                                new Insets(20));
+
+                layout.getStyleClass().add("window-container");
 
                 layout.getChildren().addAll(
+                title,
                                 suppliersList,
                                 buttons);
 
@@ -77,6 +96,9 @@ public class DostawcyWindow {
                                 layout,
                                 700,
                                 450);
+
+                applyStylesheet(scene);
+
 
                 stage.setTitle("Dostawcy");
                 stage.setScene(scene);
@@ -264,6 +286,9 @@ public class DostawcyWindow {
                                 700,
                                 230);
 
+                applyStylesheet(scene);
+
+
                 stage.setTitle(
                                 "Dodaj Dostawce");
 
@@ -334,6 +359,9 @@ public class DostawcyWindow {
                                 layout,
                                 350,
                                 150);
+
+                applyStylesheet(scene);
+
 
                 stage.setTitle(
                                 "Dodaj typ towaru");
@@ -498,4 +526,11 @@ public class DostawcyWindow {
 
                 alert.showAndWait();
         }
+
+    private static void applyStylesheet(Scene scene) {
+        scene.getStylesheets().add(
+                DostawcyWindow.class
+                        .getResource("style.css")
+                        .toExternalForm());
+    }
 }

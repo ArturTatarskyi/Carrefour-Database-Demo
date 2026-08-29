@@ -18,7 +18,14 @@ public class TowaryWindow {
 
         Stage stage = new Stage();
 
+        Label title = new Label("Towary");
+
+        title.getStyleClass().add("section-title");
+
+
         ListView<String> productsList = new ListView<>();
+
+        productsList.getStyleClass().add("data-list");
 
         updateProductsList(productsList, menu);
 
@@ -26,6 +33,11 @@ public class TowaryWindow {
         Button deleteButton = new Button("Usun");
         Button sortButton = new Button("Sortuj nazwa");
         Button closeButton = new Button("Zamknij");
+
+        addButton.getStyleClass().add("action-button");
+        deleteButton.getStyleClass().add("action-button");
+        sortButton.getStyleClass().add("action-button");
+        closeButton.getStyleClass().addAll("action-button", "secondary-button");
 
         addButton.setOnAction(
                 event -> showAddWindow(
@@ -106,13 +118,16 @@ public class TowaryWindow {
                 closeButton
         );
 
-        VBox layout = new VBox(10);
+        VBox layout = new VBox(15);
 
         layout.setPadding(
-                new Insets(15)
+                new Insets(20)
         );
 
+        layout.getStyleClass().add("window-container");
+
         layout.getChildren().addAll(
+                title,
                 productsList,
                 buttons
         );
@@ -122,6 +137,9 @@ public class TowaryWindow {
                 700,
                 450
         );
+
+        applyStylesheet(scene);
+
 
         stage.setTitle("Towary");
         stage.setScene(scene);
@@ -379,6 +397,9 @@ public class TowaryWindow {
                         250
                 );
 
+        applyStylesheet(scene);
+
+
         stage.setTitle(
                 "Dodaj Towar"
         );
@@ -469,6 +490,9 @@ public class TowaryWindow {
                         350,
                         150
                 );
+
+        applyStylesheet(scene);
+
 
         stage.setTitle(
                 "Dodaj typ towaru"
@@ -601,5 +625,12 @@ public class TowaryWindow {
         alert.setContentText(message);
 
         alert.showAndWait();
+    }
+
+    private static void applyStylesheet(Scene scene) {
+        scene.getStylesheets().add(
+                TowaryWindow.class
+                        .getResource("style.css")
+                        .toExternalForm());
     }
 }
