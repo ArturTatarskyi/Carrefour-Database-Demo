@@ -70,6 +70,6 @@ public class Kierownik extends Pracownik {
 
     @Override
     public String toString() {
-        return "KIEROWNIK | " + super.toString();
+        return super.toString();
     }
 }
