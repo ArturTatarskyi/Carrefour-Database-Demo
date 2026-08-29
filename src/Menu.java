@@ -93,7 +93,7 @@ public class Menu {
                 WynagrodzenieStorage.load(pracownicy)
         );
 
-        if (wynagrodzenia.isEmpty()) {
+        if (wynagrodzenia.isEmpty() && pracownicy.size() >= 5) {
 
             Pracownik p1 = pracownicy.get(0);
             Pracownik p2 = pracownicy.get(1);
