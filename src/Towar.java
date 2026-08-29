@@ -15,32 +15,32 @@ public class Towar implements Comparable<Towar> {
     }
 
     public Towar(int id, String nazwa, TypTowaru typ, double cena, int ilosc) {
-    this.id = id;
-    this.nazwa = nazwa;
-    this.typ = typ;
-    this.cena = cena;
-    this.ilosc = ilosc;
-}
+        this.id = id;
+        this.nazwa = nazwa;
+        this.typ = typ;
+        this.cena = cena;
+        this.ilosc = ilosc;
+    }
 
     public int getId() {
         return id;
     }
 
     public String getNazwa() {
-    return nazwa;
-}
+        return nazwa;
+    }
 
-public TypTowaru getTyp() {
-    return typ;
-}
+    public TypTowaru getTyp() {
+        return typ;
+    }
 
-public double getCena() {
-    return cena;
-}
+    public double getCena() {
+        return cena;
+    }
 
-public int getIlosc() {
-    return ilosc;
-}
+    public int getIlosc() {
+        return ilosc;
+    }
 
     @Override
     public int compareTo(Towar o) {

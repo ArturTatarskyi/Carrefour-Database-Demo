@@ -9,8 +9,13 @@ public class Pracownik extends Osoba implements Comparable<Pracownik> {
 
     public static final double STAWKA = 30;
 
-    public Pracownik(String imie, String nazwisko, int wiek,
-                     Stanowisko stanowisko, String data) {
+    public Pracownik(
+            String imie,
+            String nazwisko,
+            int wiek,
+            Stanowisko stanowisko,
+            String data) {
+
         super(imie, nazwisko);
         this.id = GeneratorID.generujID();
         this.wiek = wiek;
@@ -18,38 +23,44 @@ public class Pracownik extends Osoba implements Comparable<Pracownik> {
         this.dataZatrudnienia = data;
     }
 
-    public Pracownik(int id, String imie, String nazwisko, int wiek,
-                 Stanowisko stanowisko, String data) {
-    super(imie, nazwisko);
-    this.id = id;
-    this.wiek = wiek;
-    this.stanowisko = stanowisko;
-    this.dataZatrudnienia = data;
-}
+    public Pracownik(
+            int id,
+            String imie,
+            String nazwisko,
+            int wiek,
+            Stanowisko stanowisko,
+            String data) {
+
+        super(imie, nazwisko);
+        this.id = id;
+        this.wiek = wiek;
+        this.stanowisko = stanowisko;
+        this.dataZatrudnienia = data;
+    }
 
     public int getId() {
         return id;
     }
 
     public String getImie() {
-    return imie;
-}
+        return imie;
+    }
 
-public String getNazwisko() {
-    return nazwisko;
-}
+    public String getNazwisko() {
+        return nazwisko;
+    }
 
-public int getWiek() {
-    return wiek;
-}
+    public int getWiek() {
+        return wiek;
+    }
 
-public Stanowisko getStanowisko() {
-    return stanowisko;
-}
+    public Stanowisko getStanowisko() {
+        return stanowisko;
+    }
 
-public String getDataZatrudnienia() {
-    return dataZatrudnienia;
-}
+    public String getDataZatrudnienia() {
+        return dataZatrudnienia;
+    }
 
     @Override
     public String getRola() {
@@ -71,8 +82,14 @@ public String getDataZatrudnienia() {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Pracownik)) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Pracownik)) {
+            return false;
+        }
+
         Pracownik p = (Pracownik) o;
         return id == p.id;
     }
